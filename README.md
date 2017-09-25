@@ -24,13 +24,13 @@ I especially like to use the Realm persistence framework because it is specified
 
 I think that the first step to write and create good software is to break and narrow down the requirements and details in great detail. After this step, I will have all the details and specifications laid down. Then, I can structure the application’s data structures according to the Model View Controller paradigm. Such example model is shown below.
 
-Model
+#### Model
 
 The Model classes are responsible for 
-*downloading data from the Twitter API
-*storing tweets
-*account and organization data
-*persisting the data using CoreData
+- downloading data from the Twitter API
+- storing tweets
+- account and organization data
+- *persisting the data using CoreData
 There is a CoreDataStackManager class for all CoreData operations and also an ImageCache class for caching any images downloaded.
 
 Class	| Inherits From
@@ -42,7 +42,7 @@ Organization	| NSManageObject
 ImageCache	| NSObject
 CoreDataStackManager	| N/A
 
-View
+#### View
 
 For custom views, there is a custom tableview cell for showing the detail of each tweet in the feed.
 
@@ -54,14 +54,14 @@ LoginButton	| UIButton
 SettingsView	| UIView
 LoginView	| UIView
 
-Controller
+#### Controller
 
 The controller classes are responsible for 
-*controlling the UI for the various components of the app
-*There is a tab view for navigating between scenes from the main view
-*Navigation controller for drilling down to the detail of a tweet
-*Detail view for showing a single tweet
-*View controller for the account and organization view
+- controlling the UI for the various components of the app
+- There is a tab view for navigating between scenes from the main view
+- Navigation controller for drilling down to the detail of a tweet
+- Detail view for showing a single tweet
+- View controller for the account and organization view
 
 Class	| Inherits From
 ------------ | -------------
@@ -77,16 +77,14 @@ LoginViewController	| UIViewController
 ComposeTweetViewController	| UIViewController
 SettingsViewController	| UIViewController
 
-Other
+#### Other
 
-There are also other custom classes, such as the TransitionDelegate, PhotoAnimator, and others, which will help to build a cohesive custom UI with beautiful transition animations.
+There are also other custom classes needed.
 
 Class	| Inherits From
 ------------ | -------------
 TransitionDelegate	| UIViewControllerTransitioningDelegate
 PhotoPresentationAnimator	| UIViewControllerAnimatedTransitioning
-
-Although the above list is not completely exhaustive, it outlines a great start to building a fantastic Twitter app.
 
 ### 4.Describe some techniques that can be used to ensure that a UITableView containing many UITableViewCell is displayed at 60 frames per second.
 
@@ -105,7 +103,7 @@ For testing my theories, I can use the Apple Instruments applications to measure
 
 ### 5. Imagine that you have been given a project that has this ActorViewController. The ActorViewController should be used to display information about an actor. However, to send information to other ViewControllers, it uses NSUserDefaults. Does this make sense to you? How would you send information from one ViewController to another one?
 
-Using ```NSUserDefaults``` does not right solution for persisting any data other than user settings. The alternative way that I suggest would be using CoreData. I would recommend creating a separate NSManagedObject model class for the Actor. The class could be accessed through the fetchedResultsController from within any ViewController and we could save data using one or more managedObjectContexts created in a CoreDataStackManager class.
+Using `NSUserDefaults` does not right solution for persisting any data other than user settings. The alternative way that I suggest would be using CoreData. I would recommend creating a separate NSManagedObject model class for the Actor. The class could be accessed through the fetchedResultsController from within any ViewController and we could save data using one or more managedObjectContexts created in a CoreDataStackManager class.
 
 Below is a bit of pseudo-code showing how the model class would be structured.
 
