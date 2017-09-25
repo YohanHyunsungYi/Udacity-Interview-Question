@@ -1,5 +1,4 @@
 # Udacity-Interview-Question
-Udacity Interview Question
 
 
 ### 1.What have you learned recently about iOS development? How did you learn it? Has it changed your approach to building apps?
@@ -23,6 +22,57 @@ I especially like to use the Realm persistence framework because it is specified
 
 ### 3.Describe how you would construct a Twitter feed application (here is an example of Udacity's Twitter feed) that at minimum can display a company's Twitter page. Please include information about any classes/structs that you would use in the app. Which classes/structs would be the model(s), the controller(s), and the view(s)?
 
+I believe that the first step to writing good software is to break down the requirements and specifications in a highly detailed manner. Once the specifications are mapped out, I would structure the application's data structs and classes following the Model View Controller paradigm. An example architecture is shown below.
+
+Model
+
+The Model classes are responsible for downloading data from the Twitter API, storing tweets, account and organization data, and persisting the data using CoreData. There is a CoreDataStackManager class for all CoreData operations and also an ImageCache class for caching any images downloaded.
+
+--------------------------
+|Class	Inherits From|
+|Tweet	NSManagedObject|
+|Account	NSMangedObject|
+|TwitterAPI	NSObject|
+|Organization	NSManageObject|
+|ImageCache	NSObject|
+|CoreDataStackManager	N/A|
+---------------------------
+
+View
+
+For custom views, there is a custom tableview cell for showing the detail of each tweet in the feed. To customize the UI, there is a Like button for liking a tweet, a Twitter login button and custom views for the settings and login views. There are also other various custom UI elements, such as the action buttons within each tweet cell in the feed.
+
+Class	Inherits From
+LikeButton	UIButton
+TweetTableViewCell	UITableViewCell
+LoginButton	UIButton
+SettingsView	UIView
+LoginView	UIView
+Controller
+
+The controller classes are responsible for controlling the UI for the various components of the app. There is a tab view for navigating between scenes from the main view, a navigation controller for drilling down to the detail of a tweet, a detail view for showing a single tweet, and a view controller for the account and organization views.
+
+Class	Inherits From
+AccountViewController	UIViewController
+TweetViewController	UIViewController
+AccountViewController	UIViewController
+TweetViewController	UIViewController
+FeedViewController	UITableViewController
+OrganizationViewController	UIViewController
+NavigationController	UINavigationController
+TabBarViewController	UITabBarController
+LoginViewController	UIViewController
+ComposeTweetViewController	UIViewController
+SettingsViewController	UIViewController
+Other
+
+There are also other custom classes, such as the TransitionDelegate, PhotoAnimator, and others, which will help to build a cohesive custom UI with beautiful transition animations.
+
+Class	Inherits From
+TransitionDelegate	UIViewControllerTransitioningDelegate
+PhotoPresentationAnimator	UIViewControllerAnimatedTransitioning
+Although the above list is not completely exhaustive, it outlines a great start to building a fantastic Twitter app.
+
 ### 4.Describe some techniques that can be used to ensure that a UITableView containing many UITableViewCell is displayed at 60 frames per second.
 
 This curiosity is the one when the developers often forget to take into the account when building a good software, which is a performance. I can confidently say that I am performance-oriented developer. So I will plan out how I would design and test my UITableView to display at least 60 FPS.
@@ -40,6 +90,9 @@ For testing my theories, I can use the Apple Instruments applications to measure
 
 ### 5. Imagine that you have been given a project that has this ActorViewController. The ActorViewController should be used to display information about an actor. However, to send information to other ViewControllers, it uses NSUserDefaults. Does this make sense to you? How would you send information from one ViewController to another one?
 
+Using ```NSUserDefaults``` does not right solution for persisting any data other than user settings. The alternative way that I suggest would be using CoreData. I would recommend creating a separate NSManagedObject model class for the Actor. The class could be accessed through the fetchedResultsController from within any ViewController and we could save data using one or more managedObjectContexts created in a CoreDataStackManager class.
+
+Below is a bit of pseudo-code showing how the model class would be structured.
 
 ### 6. Imagine that you have been given a project that has this GithubProjectViewController. The GithubProjectViewController should be used to display high-level information about a GitHub project. However, it’s also responsible for finding out if there’s network connectivity, connecting to GitHub, parsing the responses and persisting information to disk. It is also one of the biggest classes in the project. Follow-up question:: How might you improve the design of this view controller?
 
